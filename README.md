@@ -1,2 +1,2 @@
 # cash-mashine
-petrov Pavel
+Petrov Pavel
