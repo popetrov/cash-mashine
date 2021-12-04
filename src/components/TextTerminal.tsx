@@ -12,7 +12,8 @@ export type GettingCashProps ={
     remainBalance:Number
 }
 
-export     const GettingCash:FC<GettingCashProps> = ({note5000, note2000, note1000,note500, note100, note50, remainBalance}) =>{
+
+export     const TextTerminal:FC<GettingCashProps> = ({note5000, note2000, note1000,note500, note100, note50, remainBalance}) =>{
 
     return(
         <div>
