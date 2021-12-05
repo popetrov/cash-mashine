@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from "react"
 import { Info } from "./Info"
+import { Numpad } from "./Numpad";
 import { TextTerminal } from "./TextTerminal"
 
 export const Cash = ()=>{
     
 let content;
-
-const arrayDenominations = [
+let arrayDenominations = [
         {
             name:5000,
             amount:100
@@ -32,6 +32,7 @@ const arrayDenominations = [
             amount:10000
         }
 ]
+
 const resultCash: number[] = []
 const inputRef = React.createRef<HTMLInputElement>()
 const[note5000, setNote5000] = useState(arrayDenominations[0].amount)
@@ -132,26 +133,32 @@ const onKeypressHandler = (e:React.KeyboardEvent<HTMLDivElement>)=>{
                 }
             }
             for(let j of resultCash){
-            switch(j){
-                case 5000:
-                    setResult5000(prev=>(prev+=1))
-                    break;
-                case 2000:
-                    setResult2000(prev=>(prev+=1))
-                    break;
-                case 1000:
-                    setResult1000(prev=>(prev+=1))
-                    break;
-                case 500:
-                    setResult500(prev=>(prev+=1))
-                    break;
-                case 100:
-                    setResult100(prev=>(prev+=1))
-                    break;
-                case 50:
-                    setResult50(prev=>(prev+=1))
-                    break     
-            }
+                switch(j){
+                    case 5000:
+                     setResult5000(prev=>(prev+=1))
+                     setNote5000((prev)=>(prev-=1))
+                     break;
+                    case 2000:
+                     setResult2000(prev=>(prev+=1))
+                     setNote2000((prev)=>(prev-=1))
+                     break;
+                    case 1000:
+                     setResult1000(prev=>(prev+=1))
+                     setNote1000((prev)=>(prev-=1))
+                     break;
+                    case 500:
+                     setResult500(prev=>(prev+=1))
+                     setNote500((prev)=>(prev-=1))
+                     break;
+                    case 100:
+                     setResult100(prev=>(prev+=1))
+                     setNote100((prev)=>(prev-=1))
+                     break;
+                    case 50:
+                     setResult50(prev=>(prev+=1))
+                     setNote50((prev)=>(prev-=1))
+                     break     
+                }
             }
             setNote5000(note5000-result5000)
             setNote2000(note2000-result2000)
@@ -176,15 +183,93 @@ if(Number(inputText)>50) {
             </Fragment>
 }
 
+const SET_NOTE = [1,2,3,4,5,6]
+
+const getSetNote = (e:any)=>{
+    switch(e.target.value){
+        case "1":
+            setNote5000(100)
+            setNote2000(400)
+            setNote1000(1000)
+            setNote500(3000)
+            setNote100(8000)
+            setNote50(10000)
+            break;
+        case "2":
+            setNote5000(476)
+            setNote2000(345)
+            setNote1000(6741)
+            setNote500(4362)
+            setNote100(1643)
+            setNote50(3450)
+            break
+        case "3":
+            setNote5000(234)
+            setNote2000(678)
+            setNote1000(845)
+            setNote500(2451)
+            setNote100(2345)
+            setNote50(234)
+            break
+        case "4":
+            setNote5000(546)
+            setNote2000(562)
+            setNote1000(2543)
+            setNote500(4365)
+            setNote100(124)
+            setNote50(342)
+            break
+        case "5":
+            setNote5000(2732)
+            setNote2000(347)
+            setNote1000(479)
+            setNote500(7556)
+            setNote100(1257)
+            setNote50(3854)
+            break
+        case "6":
+            setNote5000(73)
+            setNote2000(147)
+            setNote1000(279)
+            setNote500(356)
+            setNote100(857)
+            setNote50(854)
+            break
+    }
+}
+
+const handleClick = (e:any)=>{
+    setInputText(prev=>prev+=e.target.value)
+    if(e.target.value==='<'){
+        setInputText(inputText.slice(0,-1))
+    }
+    if(e.target.value===''){
+
+    }
+}
+
 return(
     <div className="wrapper">
+        <div className="set-note">
+            <p>Выберите банкомат</p>
+            {SET_NOTE.map((i)=>{
+                return(
+                    <button className="button button__set-note" key={i} onClick={getSetNote} value={i}>{i}</button>
+                )
+            })}
+        </div>
         <div className="content">
             <input className="content__input" ref={inputRef} type="number" placeholder="введите требуемую сумму" value={inputText} onChange={handleChange} onKeyDown={onKeypressHandler}/>
             <div className="content__text">
                 {content}    
             </div>
         </div>
-        <button className="button button__info" onClick={()=>(setActive(true))}>Получить справку</button>
+        <div className="tools">
+            <button className="button" onClick={()=>(setActive(true))}>Получить справку</button>
+            <div onClick={handleClick}>
+                <Numpad/> 
+            </div>
+        </div>
         <Info 
             active={active} 
             setActive={setActive} 
