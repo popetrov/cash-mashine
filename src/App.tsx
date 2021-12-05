@@ -1,4 +1,4 @@
-import './App.css';
+import './css/info.css';
 import { CashPage } from './page/CashPage';
 
 function App() {

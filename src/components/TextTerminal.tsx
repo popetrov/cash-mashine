@@ -17,7 +17,7 @@ export     const TextTerminal:FC<GettingCashProps> = ({note5000, note2000, note1
 
     return(
         <div>
-            <h1>Итого к выдаче</h1>
+            <h1 className="content__text_amount">Итого к выдаче</h1>
             <p>купюр номиналом 5000:{note5000} </p>
             <p>купюр номиналом 2000:{note2000} </p>
             <p>купюр номиналом 1000:{note1000} </p>
