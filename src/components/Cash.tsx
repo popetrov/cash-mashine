@@ -5,7 +5,41 @@ import { TextTerminal } from "./TextTerminal"
 export const Cash = ()=>{
     
     let content;
+
+    const arrayDenominations = [
+        {
+            name:5000,
+            amount:100
+        },
+        {
+            name:2000,
+            amount:400
+        },
+        {
+            name:1000,
+            amount:1000
+        },
+        {
+            name:500,
+            amount:3000
+        },
+        {
+            name:100,
+            amount:8000
+        },
+        {
+            name:50,
+            amount:10000
+        }
+    ]
+    const resultCash: number[] = []
     const inputRef = React.createRef<HTMLInputElement>()
+    const[note5000, setNote5000] = useState(arrayDenominations[0].amount)
+    const[note2000, setNote2000] = useState(arrayDenominations[1].amount)
+    const[note1000, setNote1000] = useState(arrayDenominations[2].amount)
+    const[note500, setNote500] = useState(arrayDenominations[3].amount)
+    const[note100, setNote100] = useState(arrayDenominations[4].amount)
+    const[note50, setNote50] = useState(arrayDenominations[5].amount)
     const[active, setActive]= useState(false)
     const [inputText, setInputText] = useState("")
     const[result5000, setResult5000] = useState(0)
@@ -15,7 +49,7 @@ export const Cash = ()=>{
     const[result100, setResult100] = useState(0)
     const[result50, setResult50] = useState(0)
     const[remainBalance, setRemainBalance] = useState(0)
-    
+
     const getCash = () =>{
         setResult5000(0)
         setResult2000(0)
@@ -25,15 +59,14 @@ export const Cash = ()=>{
         setResult50(0)
         setRemainBalance(0)
 
-        const arrayDenominations = [5000, 2000, 1000, 500, 100, 50]
-        const resultCash = []
         let amountRequest = Number(inputRef.current!.value)
-        for(let i=0; i<arrayDenominations.length;i++){
-            let note = arrayDenominations[i]
+        for(let i of arrayDenominations){
+            let note = i.name
             while(amountRequest-note>=0){
                 amountRequest-=note
                 resultCash.push(note)
             }
+
         }
         for(let j of resultCash){
            switch(j){
@@ -57,6 +90,12 @@ export const Cash = ()=>{
                 break     
            }
         }
+        setNote5000(note5000-result5000)
+        setNote2000(note2000-result2000)
+        setNote1000(note1000-result1000)
+        setNote500(note500-result500)
+        setNote100(note100-result100)
+        setNote50(note50-result50)
         return (setRemainBalance(amountRequest))
     }
 
@@ -81,11 +120,9 @@ export const Cash = ()=>{
             setResult50(0)
             setRemainBalance(0)
 
-            const arrayDenominations = [5000, 2000, 1000, 500, 100, 50]
-            const resultCash = []
             let amountRequest = Number(inputRef.current!.value)
-            for(let i=0; i<arrayDenominations.length;i++){
-                let note = arrayDenominations[i]
+            for(let i of arrayDenominations){
+                let note = i.name
                 while(amountRequest-note>=0){
                     amountRequest-=note
                     resultCash.push(note)
@@ -113,6 +150,12 @@ export const Cash = ()=>{
                     break     
             }
             }
+            setNote5000(note5000-result5000)
+            setNote2000(note2000-result2000)
+            setNote1000(note1000-result1000)
+            setNote500(note500-result500)
+            setNote100(note100-result100)
+            setNote50(note50-result50)
             return (setRemainBalance(amountRequest))
             }
     }
@@ -137,7 +180,15 @@ export const Cash = ()=>{
             <div>
                 {content}    
             </div>
-            <Info active={active} setActive={setActive}/>
+            <Info 
+                active={active} 
+                setActive={setActive} 
+                amount5000={note5000-result5000} 
+                amount2000={note2000-result2000} 
+                amount1000={note1000-result1000} 
+                amount500={note500-result500} 
+                amount100={note100-result100} 
+                amount50={note50-result50}/>
         </div>
     )
 }
