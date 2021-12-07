@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react"
+import { Error } from "./Error";
 import { Info } from "./Info"
 import { Numpad } from "./Numpad";
 import { TextTerminal } from "./TextTerminal"
@@ -6,6 +7,7 @@ import { TextTerminal } from "./TextTerminal"
 export const Cash = ()=>{
     
 let content;
+let error;
 let arrayDenominations = [
         {
             name:5000,
@@ -67,40 +69,74 @@ const getCash = () =>{
                 amountRequest-=note
                 resultCash.push(note)
             }
-
         }
+        let count5000 = 0
+        let count2000 = 0
+        let count1000 = 0
+        let count500 = 0
+        let count100 = 0
+        let count50 = 0
         for(let j of resultCash){
+
            switch(j){
                case 5000:
+                count5000++
                 setResult5000(prev=>(prev+=1))
                 setNote5000((prev)=>(prev-=1))
-                break;
+                if(count5000>=note5000){
+                    setResult5000(arrayDenominations[0].amount)
+                    setNote5000(0)
+                }         
+                break
                case 2000:
+                count2000++
                 setResult2000(prev=>(prev+=1))
                 setNote2000((prev)=>(prev-=1))
+                if(count2000>=note2000){
+                    setResult5000(arrayDenominations[0].amount)
+                    setNote5000(0)
+                }     
                 break;
                case 1000:
+                count1000++
                 setResult1000(prev=>(prev+=1))
                 setNote1000((prev)=>(prev-=1))
+                if(count1000>=note1000){
+                    setResult5000(arrayDenominations[0].amount)
+                    setNote5000(0)
+                }   
                 break;
                case 500:
+                count500++
                 setResult500(prev=>(prev+=1))
                 setNote500((prev)=>(prev-=1))
+                if(count500>=note500){
+                    setResult5000(arrayDenominations[0].amount)
+                    setNote5000(0)
+                }   
                 break;
                case 100:
+                count100++
                 setResult100(prev=>(prev+=1))
                 setNote100((prev)=>(prev-=1))
+                if(count100>=note100){
+                    setResult5000(arrayDenominations[0].amount)
+                    setNote5000(0)
+                }   
                 break;
                case 50:
+                count50++
                 setResult50(prev=>(prev+=1))
                 setNote50((prev)=>(prev-=1))
+                if(count50>=note50){
+                    setResult5000(arrayDenominations[0].amount)
+                    setNote5000(0)
+                }   
                 break     
            }
         }
-
         return (setRemainBalance(amountRequest))
     }
-  
 
 const handleChange = ()=>{
 
@@ -261,6 +297,7 @@ return(
         <div className="content">
             <input className="content__input" ref={inputRef} type="number" placeholder="введите требуемую сумму" value={inputText} onChange={handleChange} onKeyDown={onKeypressHandler}/>
             <div className="content__text">
+                {error}
                 {content}    
             </div>
         </div>
