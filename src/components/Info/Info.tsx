@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from "react";
-import "../css/info.css"
+import "../../css/style.css"
 
 export type InfoProps={
     active:boolean,
@@ -8,11 +8,12 @@ export type InfoProps={
     amount2000:number,
     amount1000:number,
     amount500:number,
+    amount200:number,
     amount100:number,
     amount50:number
 }
 
-export const Info:FC<InfoProps> = ({active, setActive, amount5000, amount2000, amount1000, amount500, amount100, amount50})=>{
+export const Info:FC<InfoProps> = ({active, setActive, amount5000, amount2000, amount1000, amount500,amount200, amount100, amount50})=>{
 
     return(            
         <div className={active ? "modal active": "modal"} onClick={()=>setActive(false)}>
@@ -22,6 +23,7 @@ export const Info:FC<InfoProps> = ({active, setActive, amount5000, amount2000, a
                 <p>купюр номиналом 2000:{amount2000}</p>
                 <p>купюр номиналом 1000:{amount1000}</p>
                 <p>купюр номиналом 500:{amount500} </p>
+                <p>купюр номиналом 200:{amount200} </p>
                 <p>купюр номиналом 100:{amount100}</p>
                 <p>купюр номиналом 50:{amount50}</p>
             </div>
