@@ -1,5 +1,5 @@
 
-import { Cash} from "../components/NewCash/Cash"
+import { Cash} from "../components/Cash/Cash"
 
 export const CashPage = ()=>{
     return(

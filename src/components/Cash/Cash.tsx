@@ -76,6 +76,7 @@ export const Cash=()=>{
              setRemainingNote((prev: any) => ({...prev, 5000:(remainingNote[5000]-resultObject[5000])}))
              setLimited((prev: number[]) =>({...prev,
                 5000:remainingNote[5000]} ))
+                console.log(remainingNote[5000])
              if(remainingNote[5000]<=0){
                 setNote5000(0)
                 setRemainingNote((prev: any)=>({...prev,5000:0}))
