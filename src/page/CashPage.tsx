@@ -1,8 +1,7 @@
+import { Cash } from "../components/Cash/Cash"
 
-import { Cash} from "../components/Cash/Cash"
-
-export const CashPage = ()=>{
-    return(
+export const CashPage = () => {
+    return (
         <Cash/>
     )
 }
