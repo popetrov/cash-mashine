@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from "react";
-import "../../css/style.css"
+import "../Info/info.css"
 
-export type InfoProps={
+export type InfoProps = {
     active:boolean,
     setActive:Dispatch<SetStateAction<boolean>>,
     amount5000:number,
@@ -15,8 +15,8 @@ export type InfoProps={
 
 export const Info:FC<InfoProps> = ({active, setActive, amount5000, amount2000, amount1000, amount500,amount200, amount100, amount50})=>{
 
-    return(            
-        <div className={active ? "modal active": "modal"} onClick={()=>setActive(false)}>
+    return (            
+        <div className={active ? "modal modal_active": "modal"} onClick={()=>setActive(false)}>
             <div className="modal__content" onClick={(e)=>(e.stopPropagation())}>
                 <h1>Банкнот в банкомате</h1>
                 <p>купюр номиналом 5000:{amount5000}</p>

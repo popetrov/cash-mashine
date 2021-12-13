@@ -1,21 +1,21 @@
 import { FC } from "react"
 
-export type GettingCashProps ={
+export type GettingCashProps = {
     bills:
-    {note5000:Number,
-    note2000:Number,
-    note1000:Number,
-    note500:Number,
-    note200:Number,
-    note100:Number,
-    note50:Number,}
+        {note5000:Number,
+        note2000:Number,
+        note1000:Number,
+        note500:Number,
+        note200:Number,
+        note100:Number,
+        note50:Number,}
     remainBalance:Number
 }
 
-export     const TextTerminal:FC<GettingCashProps> = ({bills, remainBalance}) =>{
+export const TextTerminal:FC<GettingCashProps> = ({bills, remainBalance}) => {
 
-    return(
-        <div>
+    return (
+        <div className="TextTerminal">
             <h1 className="content__text_amount">Итого к выдаче</h1>
             <p>купюр номиналом 5000:{bills.note5000} </p>
             <p>купюр номиналом 2000:{bills.note2000} </p>
@@ -27,5 +27,4 @@ export     const TextTerminal:FC<GettingCashProps> = ({bills, remainBalance}) =>
             <p>невыданная сумма: {remainBalance}</p>
         </div>
     )
-
 }

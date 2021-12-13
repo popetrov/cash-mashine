@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { Fragment } from "react";
+
 import { Info } from "../Info/Info";
 import { Numpad } from "../Numpad/Numpad";
 import { TextTerminal } from "../TextTerminal/TextTerminal";
 
 export const Cash = () => {
-
+    let content;
     const limit:{[key:number]:number} = {5000:100, 2000:400, 1000:1000, 500:3000, 200:6000, 100:8000, 50:10000}
-    const remainNotes:{[key:number]:number} = {5000:100, 2000:400, 1000:1000, 500:3000, 200:6000, 100:8000, 50:10000}
-
     const limits2 = {5000:476,2000:345,1000:6741,500:4362,200:234,100:1643,50:3450}
     const limits3 = {5000:234,2000:678,1000:845,500:2451,200:9654,100:2345,50:234}
     const limits4 = {5000:546,2000:562,1000:2543,500:4365,200:2154,100:124,50:342}
     const limits5 = {5000:2732,2000:347,1000:479,500:7556,200:3296,100:1257,50:3854}
     const limits6 = {5000:73,2000:147,1000:279,500:356,200:696,100:857,50:854}
-    let content;
     const SET_NOTE = [1,2,3,4,5,6]
     const inputRef = React.createRef<HTMLInputElement>()
     const [inputText, setInputText] = useState("")
@@ -59,9 +57,10 @@ export const Cash = () => {
 
         banknoteNominals.forEach(type => {
             limit[type] = limited[type] - (result[type] || 0)
-            remainNotes[type] = remainNotes[type] - (result[type] || 0)
         })
+
         setLimited(limit)
+        
         return result
     }
 
@@ -100,6 +99,14 @@ export const Cash = () => {
                                        200:result[200]||0,
                                        100:result[100]||0,
                                        50:result[50]||0}))
+            setRemainingNote(prev => ({...prev, 5000:limited[5000]-(result[5000]||0),
+                                                2000:limited[2000]-(result[2000]||0),
+                                                1000:limited[1000]-(result[1000]||0),
+                                                500:limited[500]-(result[500]||0),
+                                                200:limited[200]-(result[200]||0),
+                                                100:limited[100]-(result[100]||0),
+                                                50:limited[50]-(result[50]||0)}))
+
         }
     }
 
