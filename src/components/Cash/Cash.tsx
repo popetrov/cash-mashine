@@ -30,7 +30,7 @@ export const Cash = () => {
     const[remainingNote, setRemainingNote] = useState(limited)
     const[remainBalance, setRemainBalance] = useState(0)
     
-    const banknoteNominals = Object.keys(limit).map(Number).sort((a,b)=>b-a)
+    const banknoteNominals = Object.keys(limit).map(Number).sort((a,b)=>limit[b]*b-limit[a]*a)
     const lowestNominals = banknoteNominals[banknoteNominals.length-1]
     const result:{[key:number]:number} = {}
 
