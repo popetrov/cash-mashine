@@ -87,7 +87,6 @@ export const Cash = () => {
                                                 100:limited[100]-(result[100]||0),
                                                 50:limited[50]-(result[50]||0)}))
                                                 
-            setInputText("")
     }
 
     const onKeypressHandler = (e:React.KeyboardEvent<HTMLDivElement>)=>{
