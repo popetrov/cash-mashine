@@ -7,7 +7,8 @@ import { TextTerminal } from "../TextTerminal/TextTerminal";
 export const Cash = () => {
 
     const limit:{[key:number]:number} = {5000:100, 2000:400, 1000:1000, 500:3000, 200:6000, 100:8000, 50:10000}
-    
+    const remainNotes:{[key:number]:number} = {5000:100, 2000:400, 1000:1000, 500:3000, 200:6000, 100:8000, 50:10000}
+
     const limits2 = {5000:476,2000:345,1000:6741,500:4362,200:234,100:1643,50:3450}
     const limits3 = {5000:234,2000:678,1000:845,500:2451,200:9654,100:2345,50:234}
     const limits4 = {5000:546,2000:562,1000:2543,500:4365,200:2154,100:124,50:342}
@@ -30,11 +31,13 @@ export const Cash = () => {
     const[remainBalance, setRemainBalance] = useState(0)
     
     const banknoteNominals = Object.keys(limit).map(Number).sort((a,b)=>b-a)
-    const lowestNominals = banknoteNominals[banknoteNominals.length]
+    const lowestNominals = banknoteNominals[banknoteNominals.length-1]
     const result:{[key:number]:number} = {}
 
     const getAmountCash = (amount:number) => {
-        if(amount % lowestNominals) return false
+        if(amount % lowestNominals) {
+            setRemainBalance(Number(inputText)%lowestNominals)
+        }
 
         let currentAmount = amount
 
@@ -55,35 +58,12 @@ export const Cash = () => {
         if(currentAmount>0) return false
 
         banknoteNominals.forEach(type => {
-            limit[type] = limit[type] - (result[type] || 0)
+            limit[type] = limited[type] - (result[type] || 0)
+            remainNotes[type] = remainNotes[type] - (result[type] || 0)
         })
-
+        setLimited(limit)
         return result
     }
-
-    // const collect=(amount: number, nominals: number[])=>{
-    //     if(amount < 50) return {}
-    //     if(!nominals.length) return 
-
-    //     let currentNominal = nominals[0]
-    //     let availableNotes = limits[currentNominal]
-    //     let notesNeeded = Math.floor(amount/currentNominal)
-    //     let numberOfNotes = Math.min(availableNotes, notesNeeded)
-    //     let result:any = collect(amount - currentNominal*numberOfNotes, nominals.slice(1))
-    //     console.log("-----")
-    //     console.log(Number(`${currentNominal}`))
-    //     setNote(prev => ({...prev, 2000:1}))
-    //     console.log(note)
-        
-    //     if(result){
-    //         return numberOfNotes ? {[currentNominal]:numberOfNotes, ...result}:result
-    //     }
-    // }
-
-    // const iWantToGet = (amountRequired: any, limits: Object) =>{ 
-    //     let nominals = Object.keys(limits).map(Number).sort((a,b)=>b-a)
-    //     return collect(amountRequired, nominals)
-    // }
 
     const handleChange = ()=>{
         setRemainBalance(0)
@@ -99,197 +79,29 @@ export const Cash = () => {
                                        200:result[200]||0,
                                        100:result[100]||0,
                                        50:result[50]||0}))
+            
+            setRemainingNote(prev => ({...prev, 5000:limited[5000]-(result[5000]||0),
+                                                2000:limited[2000]-(result[2000]||0),
+                                                1000:limited[1000]-(result[1000]||0),
+                                                500:limited[500]-(result[500]||0),
+                                                200:limited[200]-(result[200]||0),
+                                                100:limited[100]-(result[100]||0),
+                                                50:limited[50]-(result[50]||0)}))
 
-            console.log(note)
-        
-        // for(let i of resultArray){
-        // switch(i){
-        //     case 5000:
-        //      resultCash+=i*resultObject[5000]
-        //      setNote5000(resultObject[5000])
-        //      setRemainingNote((prev: any) => ({...prev, 5000:(remainingNote[5000]-resultObject[5000])}))
-        //      setLimited((prev: number[]) =>({...prev,
-        //         5000:remainingNote[5000]} ))
-        //         console.log(remainingNote[5000])
-        //      if(remainingNote[5000]<=0){
-        //         setNote5000(0)
-        //         setRemainingNote((prev: any)=>({...prev,5000:0}))
-        //         setRemainBalance(Number(inputText))
-        //      }
-        //      break
-        //     case 2000:
-        //      resultCash+=i*resultObject[2000]
-        //      setNote2000(resultObject[2000])
-        //      setRemainingNote((prev: any) => ({...prev, 2000:(remainingNote[2000]-resultObject[2000])}))
-        //      setLimited((prev: number[]) =>({...prev,
-        //         2000:remainingNote[2000]} )) 
-        //      if(remainingNote[2000]<=0){
-        //         setNote2000(0)
-        //         setRemainingNote((prev: any)=>({...prev,2000:0}))
-        //         setRemainBalance(Number(inputText))
-        //      }   
-        //      break;
-        //     case 1000:
-        //      resultCash+=i*resultObject[1000]
-        //      setNote1000(resultObject[1000])
-        //      setRemainingNote((prev: any) => ({...prev, 1000:(remainingNote[1000]-resultObject[1000])}))
-        //      setLimited((prev: number[]) =>({...prev,
-        //         1000:remainingNote[1000]} ))  
-        //      if(remainingNote[1000]<=0){
-        //         setNote1000(0)
-        //         setRemainingNote((prev: any)=>({...prev,1000:0}))
-        //         setRemainBalance(Number(inputText))
-        //      }   
-        //      break;
-        //     case 500:
-        //      resultCash+=i*resultObject[500]   
-        //      setNote500(resultObject[500])
-        //      setRemainingNote((prev: any) => ({...prev, 500:(remainingNote[500]-resultObject[500])}))
-        //      setLimited((prev: number[]) =>({...prev,
-        //         500:remainingNote[500]} )) 
-        //      if(remainingNote[500]<=0){
-        //         setNote500(0)
-        //         setRemainingNote((prev: any)=>({...prev,500:0}))
-        //         setRemainBalance(Number(inputText))
-        //      }    
-        //      break;
-        //     case 200:
-        //      resultCash+=i*resultObject[200]
-        //      setNote200(resultObject[200])
-        //      setRemainingNote((prev: any) => ({...prev, 200:(remainingNote[200]-resultObject[200])}))
-        //      setLimited((prev: number[]) =>({...prev,
-        //         200:remainingNote[200]} )) 
-        //      if(remainingNote[200]<=0){
-        //         setNote500(0)
-        //         setRemainingNote((prev: any)=>({...prev,200:0}))
-        //         setRemainBalance(Number(inputText))
-        //      }    
-        //      break;
-        //     case 100:
-        //      resultCash+=i*resultObject[100]
-        //      setNote100(resultObject[100])
-        //      setRemainingNote((prev: any) => ({...prev, 100:(remainingNote[100]-resultObject[100])}))
-        //      setLimited((prev: number[]) =>({...prev,
-        //         100:remainingNote[100]} )) 
-        //      if(remainingNote[100]<=0){
-        //         setNote500(0)
-        //         setRemainingNote((prev: any)=>({...prev,100:0}))
-        //         setRemainBalance(Number(inputText))
-        //      }    
-        //      break;
-        //     case 50:
-        //      resultCash+=i*resultObject[50]
-        //      setNote50(resultObject[50])
-        //      setRemainingNote((prev: any) => ({...prev, 50:(remainingNote[50]-resultObject[50])}))
-        //      setLimited((prev: number[]) =>({...prev,
-        //         500:remainingNote[50]} )) 
-        //      if(remainingNote[50]<=0){
-        //         setNote500(0)
-        //         setRemainingNote((prev: any)=>({...prev,50:0}))
-        //         setRemainBalance(Number(inputText))
-        //      }    
-        //      break     
-        // }
-        // }
-        // setRemainBalance(Number(inputText)-resultCash)
     }
 
-    // const onKeypressHandler = (e:React.KeyboardEvent<HTMLDivElement>)=>{
-    //     if(e.key === "Enter"){
-    //         iWantToGet(inputText, limits)
-    //     let resultArray = Object.keys(resultObject).map(Number).sort((a,b)=>b-a)
-
-    //     for(let i of resultArray){
-    //     switch(i){
-    //         case 5000:
-    //          resultCash+=i*resultObject[5000]
-    //          setNote5000(resultObject[5000])
-    //          setRemainingNote((prev: any) => ({...prev, 5000:(remainingNote[5000]-resultObject[5000])}))
-    //          setLimited((prev: number[]) =>({...prev,
-    //             5000:remainingNote[5000]} ))
-    //          if(remainingNote[5000]<=0){
-    //             setNote5000(0)
-    //             setRemainingNote((prev: any)=>({...prev,5000:0}))
-    //             setRemainBalance(Number(inputText))
-    //          }
-    //          break
-    //         case 2000:
-    //          resultCash+=i*resultObject[2000]
-    //          setNote2000(resultObject[2000])
-    //          setRemainingNote((prev: any) => ({...prev, 2000:(remainingNote[2000]-resultObject[2000])}))
-    //          setLimited((prev: number[]) =>({...prev,
-    //             2000:remainingNote[2000]} )) 
-    //          if(remainingNote[2000]<=0){
-    //             setNote2000(0)
-    //             setRemainingNote((prev: any)=>({...prev,2000:0}))
-    //             setRemainBalance(Number(inputText))
-    //          }   
-    //          break;
-    //         case 1000:
-    //          resultCash+=i*resultObject[1000]
-    //          setNote1000(resultObject[1000])
-    //          setRemainingNote((prev: any) => ({...prev, 1000:(remainingNote[1000]-resultObject[1000])}))
-    //          setLimited((prev: number[]) =>({...prev,
-    //             1000:remainingNote[1000]} ))  
-    //          if(remainingNote[1000]<=0){
-    //             setNote1000(0)
-    //             setRemainingNote((prev: any)=>({...prev,1000:0}))
-    //             setRemainBalance(Number(inputText))
-    //          }   
-    //          break;
-    //         case 500:
-    //          resultCash+=i*resultObject[500]   
-    //          setNote500(resultObject[500])
-    //          setRemainingNote((prev: any) => ({...prev, 500:(remainingNote[500]-resultObject[500])}))
-    //          setLimited((prev: number[]) =>({...prev,
-    //             500:remainingNote[500]} )) 
-    //          if(remainingNote[500]<=0){
-    //             setNote500(0)
-    //             setRemainingNote((prev: any)=>({...prev,500:0}))
-    //             setRemainBalance(Number(inputText))
-    //          }    
-    //          break;
-    //         case 200:
-    //          resultCash+=i*resultObject[200]
-    //          setNote200(resultObject[200])
-    //          setRemainingNote((prev: any) => ({...prev, 200:(remainingNote[200]-resultObject[200])}))
-    //          setLimited((prev: number[]) =>({...prev,
-    //             200:remainingNote[200]} )) 
-    //          if(remainingNote[200]<=0){
-    //             setNote500(0)
-    //             setRemainingNote((prev: any)=>({...prev,200:0}))
-    //             setRemainBalance(Number(inputText))
-    //          }    
-    //          break;
-    //         case 100:
-    //          resultCash+=i*resultObject[100]
-    //          setNote100(resultObject[100])
-    //          setRemainingNote((prev: any) => ({...prev, 100:(remainingNote[100]-resultObject[100])}))
-    //          setLimited((prev: number[]) =>({...prev,
-    //             100:remainingNote[100]} )) 
-    //          if(remainingNote[100]<=0){
-    //             setNote500(0)
-    //             setRemainingNote((prev: any)=>({...prev,100:0}))
-    //             setRemainBalance(Number(inputText))
-    //          }    
-    //          break;
-    //         case 50:
-    //          resultCash+=i*resultObject[50]
-    //          setNote50(resultObject[50])
-    //          setRemainingNote((prev: any) => ({...prev, 50:(remainingNote[50]-resultObject[50])}))
-    //          setLimited((prev: number[]) =>({...prev,
-    //             500:remainingNote[50]} )) 
-    //          if(remainingNote[50]<=0){
-    //             setNote500(0)
-    //             setRemainingNote((prev: any)=>({...prev,50:0}))
-    //             setRemainBalance(Number(inputText))
-    //          }    
-    //          break     
-    //     }
-    //     }
-    //     setRemainBalance(Number(inputText)-resultCash)
-    //     }
-    // }
+    const onKeypressHandler = (e:React.KeyboardEvent<HTMLDivElement>)=>{
+        if(e.key === "Enter"){
+            getAmountCash(Number(inputText))
+            setNote(prev => ({...prev, 5000:result[5000]||0,
+                                       2000:result[2000]||0,
+                                       1000:result[1000]||0,
+                                       500:result[500]||0,
+                                       200:result[200]||0,
+                                       100:result[100]||0,
+                                       50:result[50]||0}))
+        }
+    }
 
     const handleClick = (e:any)=>{
         setInputText(prev=>prev+=e.target.value)
@@ -324,7 +136,7 @@ export const Cash = () => {
         }
     }
 
-    if(Number(inputText)>50) {
+    if(Number(inputText)>=50) {
         content = 
             <Fragment>
                 <button className="button" onClick={getCash}>Получить деньги</button>
@@ -362,7 +174,7 @@ export const Cash = () => {
                         placeholder="введите требуемую сумму" 
                         value={inputText}
                         onChange={handleChange}
-                        // onKeyDown={onKeypressHandler}
+                        onKeyDown={onKeypressHandler}
                         />
                 <div className="content__text">
                     {content}    
